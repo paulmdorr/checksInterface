@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import Button from '../common/Button';
+import Button from '../../common/Button';
 
 const CheckItemWrapper = styled.li`
   padding: 10px;

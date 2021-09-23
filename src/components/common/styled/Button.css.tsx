@@ -5,7 +5,7 @@ const ButtonWrapper = styled.button`
   font-size: 16px;
   text-align: center;
   user-select: none;
-  border: 2px solid transparent;
+  border: 2px solid;
   background-color: ${(props) => props.theme.mainColor};
   color: white;
 

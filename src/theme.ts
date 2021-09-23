@@ -5,4 +5,8 @@ export default {
   disabledSecondaryColor: '#bdc0cf',
   highlightColor: '#def7f7',
   hoverColor: '#e1e2ed',
+  infoColor: '#4a9c40',
+  infoLightColor: '#cff5cb',
+  errorColor: '#bf3232',
+  errorLightColor: '#ffd4d4',
 };

@@ -5,7 +5,7 @@ import {
   Description,
   LeftButton,
   RightButton,
-} from './CheckItem.css';
+} from './styled/CheckItem.css';
 
 export interface CheckItemProps {
   id: string;

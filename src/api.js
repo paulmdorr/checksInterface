@@ -25,7 +25,7 @@ export function fetchChecks() {
                 description: 'Document data is clearly visible',
               },
             ])
-          : reject({ success: false }),
+          : reject(Error("Can't retrieve checks")),
       500,
     ),
   );
@@ -40,7 +40,9 @@ export function submitCheckResults(results) {
   return new Promise((resolve, reject) =>
     setTimeout(
       () =>
-        Math.random() <= 0.8 ? resolve(results) : reject({ success: false }),
+        Math.random() <= 0.8
+          ? resolve(results)
+          : reject(Error("Can't save check")),
       500,
     ),
   );
