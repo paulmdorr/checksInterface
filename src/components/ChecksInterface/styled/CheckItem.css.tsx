@@ -20,6 +20,10 @@ const CheckItemWrapper = styled.li`
       background-color: ${(props) => props.theme.secondaryColor};
     }
   }
+
+  &.active {
+    background-color: ${(props) => props.theme.highlightColor};
+  }
 `;
 
 const Description = styled.p`

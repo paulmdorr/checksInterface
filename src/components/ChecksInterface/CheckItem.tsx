@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import {
   CheckItemWrapper,
@@ -16,6 +17,7 @@ export interface CheckItemType {
 
 interface CheckItemProps extends CheckItemType {
   disabled: boolean;
+  active: boolean;
   updateCheck: (id: string, value: boolean) => void;
 }
 
@@ -24,6 +26,7 @@ export default function CheckItem({
   description,
   value,
   disabled,
+  active,
   updateCheck,
 }: CheckItemProps) {
   const onChange = (val: boolean) => {
@@ -31,7 +34,7 @@ export default function CheckItem({
   };
 
   return (
-    <CheckItemWrapper className={disabled ? 'disabled' : ''}>
+    <CheckItemWrapper className={classNames({ disabled, active })}>
       <Description>{description}</Description>
       <LeftButton
         className={value !== undefined && value ? 'on' : 'off'}
