@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Button from '../../common/Button';
 
 const InfoBox = styled.div`
   background-color: ${(props) => props.theme.infoLightColor};
@@ -26,4 +27,21 @@ const Column = styled.div`
   width: 400px;
 `;
 
-export { ContentWrapper, Column, InfoBox, ErrorBox };
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+`;
+
+const SubmitButton = styled(Button)`
+  text-transform: uppercase;
+`;
+
+export {
+  ContentWrapper,
+  Column,
+  InfoBox,
+  ErrorBox,
+  ButtonContainer,
+  SubmitButton,
+};

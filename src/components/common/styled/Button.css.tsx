@@ -3,11 +3,12 @@ import styled from 'styled-components';
 const ButtonWrapper = styled.button`
   background-color: ${(props) => props.theme.mainColor};
   border: 2px solid;
+  border-color: ${(props) => props.theme.mainColor};
   border-radius: 4px;
   color: ${(props) => props.theme.secondaryColor};
   cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: bold;
   height: 40px;
   padding: 0 16px;
   position: relative;
@@ -16,13 +17,14 @@ const ButtonWrapper = styled.button`
 
   &:disabled {
     background-color: ${(props) => props.theme.disabledMainColor};
+    border-color: ${(props) => props.theme.disabledSecondaryColor};
     color: ${(props) => props.theme.disabledSecondaryColor};
     cursor: not-allowed;
   }
 
   &:enabled:hover,
   &:enabled:focus {
-    background-color: ${(props) => props.theme.highlightColor};
+    background-color: ${(props) => props.theme.highlightColorDark};
   }
 `;
 

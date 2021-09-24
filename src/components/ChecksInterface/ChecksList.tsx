@@ -6,14 +6,24 @@ import { ContentWrapper, ListWrapper } from './styled/ChecksList.css';
 export interface ChecksListProps {
   checks: Array<CheckItemType>;
   updateCheck: (id: string, value: boolean) => void;
+  setSubmitEnabled: (value: boolean) => void;
 }
 
-export default function ChecksList({ checks, updateCheck }: ChecksListProps) {
+export default function ChecksList({
+  checks,
+  updateCheck,
+  setSubmitEnabled,
+}: ChecksListProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const sortedChecks = checks.sort((a: CheckItemType, b: CheckItemType) =>
     a.priority > b.priority ? 1 : 0,
   );
+
+  const updateCheckAndCurrentIndex = (id: string, value: boolean) => {
+    setCurrentIndex(checks.findIndex((check) => check.id === id));
+    updateCheck(id, value);
+  };
 
   const getFormattedChecks = () => {
     let thereIsANo = false;
@@ -28,11 +38,15 @@ export default function ChecksList({ checks, updateCheck }: ChecksListProps) {
         thereIsANo = true;
       }
 
+      if (index === sortedChecks.length - 1) {
+        setSubmitEnabled(check.value !== undefined || thereIsANo);
+      }
+
       return (
         <CheckItem
           {...check}
           key={check.id}
-          updateCheck={updateCheck}
+          updateCheck={updateCheckAndCurrentIndex}
           disabled={disabled}
           active={currentIndex === index}
         />

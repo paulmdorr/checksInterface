@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 
-import { fetchChecks } from '../../api';
+import { fetchChecks, submitCheckResults } from '../../api';
 import ChecksList from './ChecksList';
 import { CheckItemType } from './CheckItem';
 import {
@@ -8,15 +8,21 @@ import {
   Column,
   InfoBox,
   ErrorBox,
+  ButtonContainer,
+  SubmitButton,
 } from './styled/ChecksInterface.css';
 
 const SECONDS_TO_RETRY = 5;
 
 export default function ChecksInterface() {
-  const [error, setError] = useState<string | null>(null);
+  const [fetchingError, setFetchingError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [submittingError, setSubmittingError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const [checks, setChecks] = useState<Array<CheckItemType>>([]);
   const [retryTime, setRetryTime] = useState(0);
+  const [submitEnabled, setSubmitEnabled] = useState(false);
   const timer = useRef<number>();
 
   const tryToFetchChecks = async () => {
@@ -26,11 +32,32 @@ export default function ChecksInterface() {
       setIsLoading(false);
     } catch (e) {
       if (e instanceof Error) {
-        setError(e.message);
+        setFetchingError(e.message);
         timer.current = window.setInterval(
           () => setRetryTime((value) => value + 1),
           1000,
         );
+      }
+    }
+  };
+
+  const tryToSubmit = async () => {
+    try {
+      setSubmittingError('');
+      setSubmitted(false);
+      setIsSubmitting(true);
+      await submitCheckResults(
+        checks.map(({ id, value }) => ({
+          checkId: id,
+          result: value ? 'yes' : 'no',
+        })),
+      );
+      setIsSubmitting(false);
+      setSubmitted(true);
+    } catch (e) {
+      if (e instanceof Error) {
+        setIsSubmitting(false);
+        setSubmittingError(e.message);
       }
     }
   };
@@ -50,17 +77,17 @@ export default function ChecksInterface() {
   useEffect(() => {
     if (retryTime === SECONDS_TO_RETRY) {
       clearInterval(timer.current);
-      setError('');
+      setFetchingError('');
       setRetryTime(0);
       tryToFetchChecks();
     }
   }, [retryTime]);
 
   const getContent = () => {
-    if (error) {
+    if (fetchingError) {
       return (
         <ErrorBox>
-          {error}... Retrying in {SECONDS_TO_RETRY - retryTime}
+          {fetchingError}... Retrying in {SECONDS_TO_RETRY - retryTime}
         </ErrorBox>
       );
     }
@@ -69,7 +96,25 @@ export default function ChecksInterface() {
       return <InfoBox>Loading checks...</InfoBox>;
     }
 
-    return <ChecksList checks={checks} updateCheck={updateCheck} />;
+    return (
+      <>
+        <ChecksList
+          checks={checks}
+          updateCheck={updateCheck}
+          setSubmitEnabled={setSubmitEnabled}
+        />
+        <ButtonContainer>
+          <SubmitButton disabled={!submitEnabled} onClick={tryToSubmit}>
+            Submit
+          </SubmitButton>
+        </ButtonContainer>
+        {submittingError && (
+          <ErrorBox>{submittingError}. Try again later.</ErrorBox>
+        )}
+        {isSubmitting && <InfoBox>Submitting checks...</InfoBox>}
+        {submitted && <InfoBox>Submitted successfully!</InfoBox>}
+      </>
+    );
   };
 
   return (

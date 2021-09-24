@@ -31,12 +31,17 @@ const Description = styled.p`
 `;
 
 const YesNoButton = styled(Button)`
-  border-color: ${(props) => props.theme.mainColor};
+  font-weight: 500;
   height: 30px;
 
   &.off {
     background-color: ${(props) => props.theme.secondaryColor};
     color: ${(props) => props.theme.mainColor};
+
+    &:enabled:hover,
+    &:enabled:focus {
+      background-color: ${(props) => props.theme.highlightColor};
+    }
   }
 
   &.on {
