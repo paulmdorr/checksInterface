@@ -42,7 +42,7 @@ export function submitCheckResults(results) {
       () =>
         Math.random() <= 0.8
           ? resolve(results)
-          : reject(Error("Can't save check")),
+          : reject(Error("Can't save results")),
       500,
     ),
   );

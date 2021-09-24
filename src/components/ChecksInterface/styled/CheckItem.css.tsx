@@ -22,7 +22,6 @@ const YesNoButton = styled(Button)`
   border-color: ${(props) => props.theme.mainColor};
   height: 30px;
 
-  &[data-value='undefined'],
   &[data-value='false'] {
     background-color: ${(props) => props.theme.secondaryColor};
     color: ${(props) => props.theme.mainColor};
@@ -35,6 +34,28 @@ const YesNoButton = styled(Button)`
     &:enabled:hover,
     &:enabled:focus {
       background-color: ${(props) => props.theme.mainColor};
+    }
+  }
+
+  &[data-value='true']:disabled {
+    background-color: ${(props) => props.theme.disabledSecondaryColor};
+    border-color: ${(props) => props.theme.disabledSecondaryColor};
+    color: ${(props) => props.theme.disabledMainColor};
+
+    &:enabled:hover,
+    &:enabled:focus {
+      background-color: ${(props) => props.theme.disabledSecondaryColor};
+    }
+  }
+
+  &[data-value='false']:disabled {
+    background-color: ${(props) => props.theme.disabledMainColor};
+    border-color: ${(props) => props.theme.disabledSecondaryColor};
+    color: ${(props) => props.theme.disabledSecondaryColor};
+
+    &:enabled:hover,
+    &:enabled:focus {
+      background-color: ${(props) => props.theme.disabledMainColor};
     }
   }
 `;

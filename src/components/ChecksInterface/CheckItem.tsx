@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
   CheckItemWrapper,
@@ -7,29 +7,43 @@ import {
   RightButton,
 } from './styled/CheckItem.css';
 
-export interface CheckItemProps {
+export interface CheckItemType {
   id: string;
   priority: number;
   description: string;
   value?: boolean;
 }
 
-export default function CheckItem({ description, value }: CheckItemProps) {
-  const [checked, setChecked] = useState(value);
+interface CheckItemProps extends CheckItemType {
+  disabled: boolean;
+  updateCheck: (id: string, value: boolean) => void;
+}
 
+export default function CheckItem({
+  id,
+  description,
+  value,
+  disabled,
+  updateCheck,
+}: CheckItemProps) {
   const onChange = (val: boolean) => {
-    setChecked(val);
+    updateCheck(id, val);
   };
 
   return (
     <CheckItemWrapper>
       <Description>{description}</Description>
-      <LeftButton data-value={checked} onClick={() => onChange(true)}>
+      <LeftButton
+        data-value={value !== undefined && value}
+        onClick={() => onChange(true)}
+        disabled={disabled}
+      >
         Yes
       </LeftButton>
       <RightButton
-        data-value={checked !== undefined && !checked}
+        data-value={value !== undefined && !value}
         onClick={() => onChange(false)}
+        disabled={disabled}
       >
         No
       </RightButton>

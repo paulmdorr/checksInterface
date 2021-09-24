@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 
 import { fetchChecks } from '../../api';
 import ChecksList from './ChecksList';
-import { CheckItemProps } from './CheckItem';
+import { CheckItemType } from './CheckItem';
 import {
   ContentWrapper,
   Column,
@@ -15,18 +15,14 @@ const SECONDS_TO_RETRY = 5;
 export default function ChecksInterface() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [checks, setChecks] = useState([]);
+  const [checks, setChecks] = useState<Array<CheckItemType>>([]);
   const [retryTime, setRetryTime] = useState(0);
   const timer = useRef<number>();
 
   const tryToFetchChecks = async () => {
     try {
       setIsLoading(true);
-      const unsortedChecks = await fetchChecks();
-      const sortedChecks = unsortedChecks.sort(
-        (a: CheckItemProps, b: CheckItemProps) => a.priority > b.priority,
-      );
-      setChecks(sortedChecks);
+      setChecks(await fetchChecks());
       setIsLoading(false);
     } catch (e) {
       if (e instanceof Error) {
@@ -37,6 +33,14 @@ export default function ChecksInterface() {
         );
       }
     }
+  };
+
+  const updateCheck = (id: string, value: boolean) => {
+    setChecks((currentChecks) =>
+      currentChecks.map((check) =>
+        check.id === id ? { ...check, value } : check,
+      ),
+    );
   };
 
   useEffect(() => {
@@ -65,7 +69,7 @@ export default function ChecksInterface() {
       return <InfoBox>Loading checks...</InfoBox>;
     }
 
-    return <ChecksList checks={checks} />;
+    return <ChecksList checks={checks} updateCheck={updateCheck} />;
   };
 
   return (
