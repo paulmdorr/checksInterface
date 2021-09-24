@@ -31,17 +31,17 @@ export default function CheckItem({
   };
 
   return (
-    <CheckItemWrapper>
+    <CheckItemWrapper className={disabled ? 'disabled' : ''}>
       <Description>{description}</Description>
       <LeftButton
-        data-value={value !== undefined && value}
+        className={value !== undefined && value ? 'on' : 'off'}
         onClick={() => onChange(true)}
         disabled={disabled}
       >
         Yes
       </LeftButton>
       <RightButton
-        data-value={value !== undefined && !value}
+        className={value !== undefined && !value ? 'on' : 'off'}
         onClick={() => onChange(false)}
         disabled={disabled}
       >

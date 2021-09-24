@@ -12,6 +12,14 @@ const CheckItemWrapper = styled.li`
   &:hover {
     background-color: ${(props) => props.theme.hoverColor};
   }
+
+  &.disabled {
+    color: ${(props) => props.theme.disabledSecondaryColor};
+
+    &:hover {
+      background-color: ${(props) => props.theme.secondaryColor};
+    }
+  }
 `;
 
 const Description = styled.p`
@@ -22,12 +30,12 @@ const YesNoButton = styled(Button)`
   border-color: ${(props) => props.theme.mainColor};
   height: 30px;
 
-  &[data-value='false'] {
+  &.off {
     background-color: ${(props) => props.theme.secondaryColor};
     color: ${(props) => props.theme.mainColor};
   }
 
-  &[data-value='true'] {
+  &.on {
     background-color: ${(props) => props.theme.mainColor};
     color: ${(props) => props.theme.secondaryColor};
 
@@ -37,7 +45,7 @@ const YesNoButton = styled(Button)`
     }
   }
 
-  &[data-value='true']:disabled {
+  &.on:disabled {
     background-color: ${(props) => props.theme.disabledSecondaryColor};
     border-color: ${(props) => props.theme.disabledSecondaryColor};
     color: ${(props) => props.theme.disabledMainColor};
@@ -48,7 +56,7 @@ const YesNoButton = styled(Button)`
     }
   }
 
-  &[data-value='false']:disabled {
+  &.off:disabled {
     background-color: ${(props) => props.theme.disabledMainColor};
     border-color: ${(props) => props.theme.disabledSecondaryColor};
     color: ${(props) => props.theme.disabledSecondaryColor};
